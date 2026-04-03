@@ -1,99 +1,126 @@
-# 🩺 Diabetes Prediction Model – Your First MLOps Project (FastAPI + Docker + K8s)
+# Build a Smart House Price Prediction system using ML, deployed via FastAPI, containerized with Docker, and hosted on AWS App Runner with CI/CD automation.
 
-> 🎥 YouTube video for the project: **"Build Your First MLOps Project"**
 
-This project helps you learn **Building and Deploying an ML Model** using a simple and real-world use case: predicting whether a person is diabetic based on health metrics. We’ll go from:
+# Smart House Price Prediction (MLOps Project)
 
-- ✅ Model Training
-- ✅ Building the Model locally
-- ✅ API Deployment with FastAPI
-- ✅ Dockerization
-- ✅ Kubernetes Deployment
+A complete end-to-end **MLOps project** demonstrating how to build, containerize, and deploy a machine learning model using **FastAPI**, **Docker**, and **AWS App Runner**. This project predicts house prices in different locations of bangalore based on features like BHK, square footage, location, and amenities.
 
----
 
-## 📊 Problem Statement
 
-Predict if a person is diabetic based on:
-- Pregnancies
-- Glucose
-- Blood Pressure
-- BMI
-- Age
+## Project Overview
+This project showcases:
+- Machine Learning model (RandomForestRegressor)
+- FastAPI backend with REST API + UI
+- Docker containerization
+- Deployment on AWS (ECR + App Runner)
+- CI/CD automation with GitHub Actions
+- Monitoring via CloudWatch
 
-We use a Random Forest Classifier trained on the **Pima Indians Diabetes Dataset**.
 
----
 
-## 🚀 Quick Start
+## Architecture Flow
+User → FastAPI → ML Model → Docker → ECR → App Runner → CI/CD → CloudWatch
 
-### 1. Clone the Repo
 
-```bash
-git clone https://github.com/iam-veeramalla/first-mlops-project.git
-cd first-mlops-project
-```
 
-### 2. Create Virtual Environment
+## Getting Started
 
-```
-python3 -m venv .mlops
-source .mlops/bin/activate
-```
+### 
 
-### 3. Install Dependencies
+1. Clone Repository
 
-```
-pip install -r requirements.txt
-```
+git clone https://github.com/disisdsid/mlops-project-1
+cd mlops-project-1
 
-## Train the Model
+2. Train Model
 
-```
-python train.py
-```
+python train_house.py
+This generates house_model_v1.pkl used by the FastAPI app.
 
-## Run the API Locally
 
-```
-uvicorn main:app --reload
-```
+3. Run Locally
 
-### Sample Input for /predict
+uvicorn main_house:app --reload
+Visit:
 
-```
-{
-  "Pregnancies": 2,
-  "Glucose": 130,
-  "BloodPressure": 70,
-  "BMI": 28.5,
-  "Age": 45
-}
-```
+http://127.0.0.1:8000/ → Health check
 
-## Dockerize the API
+http://127.0.0.1:8000/ui → Web UI
 
-### Build the Docker Image
+http://127.0.0.1:8000/predict → API endpoint
 
-```
-docker build -t diabetes-prediction-model .
-```
+http://127.0.0.1:8000/docs → Swagger UI
 
-### Run the Container
 
-```
-docker run -p 8000:8000 diabetes-prediction-model
-```
+4. Docker Build
 
-## Deploy to Kubernetes
+docker build -t house-price-api .
 
-```
-kubectl apply -f diabetes-prediction-model-deployment.yaml
-```
+5. Push to AWS ECR
 
-🙌 Credits
+aws ecr create-repository --repository-name house-price-api
+docker tag house-price-api:latest <ECR_URI>
+docker push <ECR_URI>
 
-Created by `ABHISHEK VEERAMALLA`
+6. Deploy on AWS App Runner
+Select ECR image
 
-Subscribe for more DevOps + MLOps content on the YouTube Channel - `Abhishek.Veeramalla`
+Set port to 8000
+
+Configure health check (recommended: HTTP /health)
+
+
+ Key API Endpoints
+/ → Health check
+
+/ui → User Interface form
+
+/predict → JSON API prediction
+
+/docs → Swagger UI
+
+
+ CI/CD Pipeline
+GitHub Actions automates:
+
+Code push
+
+Docker build
+
+Push to ECR
+
+Deploy to App Runner
+
+
+ Challenges Faced
+Docker daemon issues
+
+Setting up UI with python code
+
+UI route confusion (/ui)
+
+
+
+ Improvements & Future Work
+Add database integration (DynamoDB)
+
+Use larger real-world dataset
+
+Model versioning with S3
+
+Setup custom domain
+
+
+
+ Conclusion
+This project demonstrates a complete MLOps lifecycle — from model training to cloud deployment — and is suitable for beginners to understand real-world ML deployment pipelines.
+
+
+ License
+This project is licensed under the MIT License.
+
+Created by `Siddhanta Dash`
+
+LinkedIn - https://www.linkedin.com/in/siddhanta-dash
+
 
