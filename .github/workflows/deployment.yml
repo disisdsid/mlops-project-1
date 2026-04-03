@@ -28,7 +28,7 @@ jobs:
     - name: Build & Push
       run: |
         docker build -t house-price-api .
-        docker tag house-price-api:latest <ECR-URL>
+        docker tag house-price-api:latest 048119078172.dkr.ecr.us-east-1.amazonaws.com/house-price-api:latest
         docker push 048119078172.dkr.ecr.us-east-1.amazonaws.com/house-price-api:latest
 
     - name: Trigger App Runner Deployment
