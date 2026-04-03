@@ -16,21 +16,21 @@ jobs:
     - name: Configure AWS
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: AKIAQWNA63UOO5S3J42M
-        aws-secret-access-key: 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
-        aws-region: us-east-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ap-south-1
 
     - name: Login to ECR
       run: |
-        aws ecr get-login-password --region us-east-1 | \
-        docker login --username AWS --password-stdin 048119078172.dkr.ecr.us-east-1.amazonaws.com
+        aws ecr get-login-password --region ap-south-1 | \
+        docker login --username AWS --password-stdin <your-account>.dkr.ecr.ap-south-1.amazonaws.com
 
     - name: Build & Push
       run: |
         docker build -t house-price-api .
-        docker tag house-price-api:latest 048119078172.dkr.ecr.us-east-1.amazonaws.com/house-price-api:latest
-        docker push 048119078172.dkr.ecr.us-east-1.amazonaws.com/house-price-api:latest
+        docker tag house-price-api:latest <ECR-URL>
+        docker push <ECR-URL>
 
     - name: Trigger App Runner Deployment
       run: |
-        aws apprunner start-deployment --service-arn arn:aws:apprunner:us-east-1:048119078172:service/House_price_service/b014f9d010fd4143b8e62241b55b4dad
+        aws apprunner start-deployment --service-arn <YOUR_SERVICE_ARN>
